@@ -8,6 +8,12 @@
     <title>Document</title>
 </head>
 <body>
-    <p>{{$organization}}</p>
+    <p>Organization => {{$organization}}</p>
+    <p>fdsa</p>
+    @foreach($projects as $project)
+        <p>{{$project}}</p>
+    @endforeach
+
+    <a href="{{route('organizations.clients.index', $organization)}}"><button>Clients</button></a>
 </body>
 </html>
