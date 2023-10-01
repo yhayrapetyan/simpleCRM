@@ -10,6 +10,13 @@ class Client extends Model
 {
     use HasFactory;
 
+
+    protected $fillable = [
+        'name',
+        'email',
+        'phone',
+        'organization_id',
+    ];
     public function organization()
     {
         return $this->belongsTo(Organization::class);
