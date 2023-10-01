@@ -10,7 +10,7 @@
 <body>
 <form action="{{route('organizations.update', $organization)}}" method="POST">
     @csrf
-
+    @method('PUT')
     <label for="title">Title</label>
     <input id="title" name="title" type="text" value="{{$organization->title}}" required>
 
