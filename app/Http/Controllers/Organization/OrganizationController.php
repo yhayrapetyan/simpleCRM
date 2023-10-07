@@ -16,6 +16,7 @@ class OrganizationController extends Controller
      */
     public function index(): View
     {
+        $this->authorize('viewAny', Organization::class);
         return view('control-panel.organizations.index', ['organizations' => Organization::paginate(10)]);
     }
 
@@ -24,6 +25,7 @@ class OrganizationController extends Controller
      */
     public function create(): View
     {
+        $this->authorize('create', Organization::class);
         return view('control-panel.organizations.create');
     }
 
@@ -33,6 +35,7 @@ class OrganizationController extends Controller
     public function store(StoreOrganizationRequest $request)
     {
 
+        $this->authorize('create', Organization::class);
         $organization = Organization::create($request->validated());
 
         return to_route('organizations.show' , $organization);
@@ -43,6 +46,7 @@ class OrganizationController extends Controller
      */
     public function show(Organization $organization)
     {
+        $this->authorize('view', Organization::class);
         return to_route('organizations.clients.index', $organization);
     }
 
@@ -52,6 +56,8 @@ class OrganizationController extends Controller
      */
     public function edit(Organization $organization): View
     {
+        $this->authorize('update', Organization::class);
+
         return view('control-panel.organizations.edit', [
             'organization' => $organization,
         ]);
@@ -63,6 +69,8 @@ class OrganizationController extends Controller
      */
     public function update(UpdateOrganizationRequest $request, Organization $organization)
     {
+        $this->authorize('update', Organization::class);
+
         $organization->update($request->validated());
         return to_route('organizations.show', $organization);
     }
@@ -72,6 +80,8 @@ class OrganizationController extends Controller
      */
     public function destroy(Organization $organization)
     {
+        $this->authorize('delete', Organization::class);
+
         $organization->delete();
         return to_route('organizations.index');
     }
