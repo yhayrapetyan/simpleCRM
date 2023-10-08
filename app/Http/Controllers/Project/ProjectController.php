@@ -15,6 +15,7 @@ class ProjectController extends Controller
      */
     public function index()
     {
+        $this->authorize('viewAny', Project::class);
         return view('control-panel.projects.index', ['projects' => Project::paginate(10)]);
     }
 
@@ -23,6 +24,7 @@ class ProjectController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', Project::class);
         return view('control-panel.projects.create');
     }
 
@@ -32,6 +34,7 @@ class ProjectController extends Controller
     public function store(StoreProjectRequest $request)
     {
 
+        $this->authorize('create', Project::class);
         $project = Project::create($request->validated());
         return to_route('projects.show', $project);
     }
@@ -41,6 +44,7 @@ class ProjectController extends Controller
      */
     public function show(Project $project)
     {
+        $this->authorize('view', Project::class);
         return to_route('projects.tasks.index', $project);
     }
 
@@ -49,6 +53,7 @@ class ProjectController extends Controller
      */
     public function edit(Project $project)
     {
+        $this->authorize('update', Project::class);
         return view('control-panel.projects.edit',['project'=> $project]);
     }
 
@@ -57,7 +62,7 @@ class ProjectController extends Controller
      */
     public function update(UpdateProjectRequest $request, Project $project)
     {
-
+        $this->authorize('update', Project::class);
         $project->update($request->validated());
 
         return to_route('projects.show', $project);
@@ -68,6 +73,7 @@ class ProjectController extends Controller
      */
     public function destroy(Project $project)
     {
+        $this->authorize('delete', Project::class);
         $project->delete();
 
         return to_route('project.index');

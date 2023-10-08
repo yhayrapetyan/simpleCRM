@@ -17,6 +17,7 @@ class RoleController extends Controller
      */
     public function index()
     {
+        $this->authorize('viewAny', Role::class);
         return view('control-panel.roles.index', ['roles' => Role::paginate(10)]);
     }
 
@@ -25,6 +26,7 @@ class RoleController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', Role::class);
         return view('control-panel.roles.create', ['abilities' => Ability::all()]);
     }
 
@@ -33,6 +35,7 @@ class RoleController extends Controller
      */
     public function store(StoreRoleRequest $request)
     {
+        $this->authorize('create', Role::class);
         $role = Role::create($request->validated());
         $role->ability()->attach($request->validated('abilities'));
 
@@ -44,6 +47,7 @@ class RoleController extends Controller
      */
     public function show(Role $role)
     {
+        $this->authorize('view', Role::class);
         return to_route('roles.abilities.index',$role);
     }
 
@@ -52,7 +56,7 @@ class RoleController extends Controller
      */
     public function edit(Role $role)
     {
-
+        $this->authorize('update', Role::class);
         return view('control-panel.roles.edit', [
             'role' => $role,
             'abilities' => Ability::all(),
@@ -65,6 +69,7 @@ class RoleController extends Controller
     public function update(UpdateRoleRequest $request, Role $role)
     {
 
+        $this->authorize('update', Role::class);
         $role->update($request->validated());
         Db::table('role_abilities')->where('role_id', $role->id)->delete();
         $role->ability()->attach($request->validated('abilities'));
@@ -78,6 +83,7 @@ class RoleController extends Controller
      */
     public function destroy(Role $role)
     {
+        $this->authorize('delete', Role::class);
         $role->delete();
 
         return to_route('roles.index');

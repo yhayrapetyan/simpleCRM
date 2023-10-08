@@ -15,6 +15,7 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
+        $this->authorize('viewAny', User::class);
         return view('control-panel.users.index', ['users' => User::paginate(10)]);
     }
 
@@ -23,6 +24,7 @@ class UserController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', User::class);
         return view('control-panel.users.create');
     }
 
@@ -31,6 +33,7 @@ class UserController extends Controller
      */
     public function store(StoreUserRequest $request)
     {
+        $this->authorize('create', User::class);
         $user = User::create($request->validated());
 
         return to_route('users.show', $user);
@@ -42,7 +45,7 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-
+        $this->authorize('view', $user);
         return  to_route('users.projects.index', $user) ;
     }
 
@@ -51,6 +54,7 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
+        $this->authorize('update', $user);
         return view('control-panel.users.edit', ['user' => $user]);
     }
 
@@ -59,6 +63,7 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request, User $user)
     {
+        $this->authorize('update', $user);
         $user->update($request->validated());
 
         return to_route('users.show', $user);
@@ -70,6 +75,7 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
+        $this->authorize('delete', User::class);
         $user->delete();
 
         return to_route('users.index');
