@@ -15,19 +15,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-
-
-
         $this->call([
             AbilitySeeder::class,
             RoleSeeder::class,
             StatusSeeder::class,
             DummyDataSeeder::class,
         ]);
-
-
-
-
-
     }
 }
