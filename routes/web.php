@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\PasswordRecoveryController;
+use App\Http\Controllers\Auth\PasswordRecoveryController;
 use App\Http\Controllers\Client\ClientController;
 use App\Http\Controllers\Client\ClientProjectController;
 use App\Http\Controllers\Dashboard\DashboardController;
@@ -35,10 +35,11 @@ Route::redirect('/', 'login');
 
 Route::view('login','auth.login')->name('login-page');
 Route::post('login', [LoginController::class, 'login'])->name('login');
-Route::post('logout', [LoginController::class, 'logout'])->name('logout');
+Route::get('logout', [LoginController::class, 'logout'])->name('logout');
 Route::view('forgot-password', 'auth.forgot-password')->name('forgot-password');
 Route::post('send-recovery-link', [PasswordRecoveryController::class, 'SendRecoveryLink'])->name('send-recovery-link');
-Route::view('password.reset', 'password-reset');
+Route::get('password/reset/{token}/{email}', [PasswordRecoveryController::class, 'showResetForm'])->name('password.reset');
+Route::post('password/reset', [PasswordRecoveryController::class, 'reset'])->name('set-password');
 
 Route::middleware('auth')->group(function(){
     Route::resource('users', UserController::class);
